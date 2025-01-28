@@ -4,8 +4,8 @@ RSpec.describe "Carts", type: :request do
   pending "TODO: Escreva os testes de comportamento do controller de carrinho necessários para cobrir a sua implmentação #{__FILE__}"
 
   describe "GET /index" do
-    context 'when has products in the cart' do
-      it 'render a successful response' do
+    context 'when session id is present' do
+      it 'render a successful response with list' do
         cart = create(:cart)
         product = create(:product, name: 'Product A')
         create(:cart_item, cart: cart, product: product)
@@ -18,6 +18,15 @@ RSpec.describe "Carts", type: :request do
         expect(response).to be_successful
         expect(parsed_response).to include(:id, :products, :total_price)
         expect(parsed_response[:products].first).to include(:id, :name, :quantity, :unit_price, :total_price)
+      end
+    end
+
+    context 'when session id is missing' do
+      it 'render a successful response with empty array' do
+        get carts_url
+
+        expect(response).to be_successful
+        expect(JSON.parse(response.body)).to be_empty
       end
     end
   end
