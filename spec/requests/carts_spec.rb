@@ -180,7 +180,7 @@ RSpec.describe "Carts", type: :request do
         post cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
       end
 
-      it 'response ' do
+      it 'returns unprocessable entity' do
         allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
 
         subject
