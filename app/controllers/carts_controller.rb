@@ -1,3 +1,7 @@
 class CartsController < ApplicationController
-  ## TODO Escreva a lógica dos carrinhos aqui
+
+  def index
+    carts = Cart.find(session[:cart_id])
+    render json: carts, status: :ok
+  end
 end
