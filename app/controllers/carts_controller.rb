@@ -11,7 +11,13 @@ class CartsController < ApplicationController
   end
 
   def add_items
-    UpdateCartItemService.new(**permitted_params.merge(cart_id)).call
+    response = UpdateCartItemService.new(**permitted_params.merge(cart_id)).call
+
+    if response.success
+      render json: response.carts, status: :ok
+    else
+      render json: [], status: :unprocessable_entity
+    end
   end
 
   private

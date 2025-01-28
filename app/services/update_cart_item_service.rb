@@ -10,7 +10,6 @@ class UpdateCartItemService
 
   def call
     return handle_response(success: false, card: card) if params_invalid?
-
     item = find_or_add_item
     item.increment_quantity!(quantity)
 
@@ -22,7 +21,7 @@ class UpdateCartItemService
   private
 
   def params_invalid?
-    product_id.nil || quantity.nil || quantity.negative?
+    product_id.nil? || quantity.nil? || quantity.negative?
   end
 
   def find_or_create_cart
@@ -30,7 +29,6 @@ class UpdateCartItemService
   end
 
   def find_or_add_item
-    binding.pry
     cart.cart_items.find_or_create_by!(product_id: product_id)
   end
 
