@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   root "rails/health#show"
 
   resources :carts
+  post 'cart/add_items', to: 'carts#add_items'
+
 end

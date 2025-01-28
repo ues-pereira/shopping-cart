@@ -8,6 +8,10 @@ class CartItem < ApplicationRecord
     product.price * quantity
   end
 
+  def increment_quantity!(quantity)
+    update!(quantity: self.quantity + quantity)
+  end
+
   private
 
   def update_cart_total_price
