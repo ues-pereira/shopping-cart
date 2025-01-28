@@ -11,7 +11,7 @@ RSpec.describe "Carts", type: :request do
         create(:cart_item, cart: cart, product: product)
         allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
 
-        get carts_url
+        get cart_url
 
         parsed_response = JSON.parse(response.body).deep_symbolize_keys
 
@@ -23,7 +23,7 @@ RSpec.describe "Carts", type: :request do
 
     context 'when session id is missing' do
       it 'render a successful response with empty array' do
-        get carts_url
+        get cart_url
 
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to be_empty
@@ -39,8 +39,8 @@ RSpec.describe "Carts", type: :request do
       let!(:cart_item) { create(:cart_item, cart: cart, product: product, quantity: 1) }
 
       subject do
-        post cart_add_items_url, params: { product_id: product.id, quantity: 1 }, as: :json
-        post cart_add_items_url, params: { product_id: product.id, quantity: 1 }, as: :json
+        post add_item_to_cart_cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
+        post add_item_to_cart_cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
       end
 
       it 'updates the quantity of the existing item in the cart' do
@@ -54,8 +54,8 @@ RSpec.describe "Carts", type: :request do
 
     context 'when the product is not yet in the cart' do
       subject do
-        post cart_add_items_url, params: { product_id: product.id, quantity: 1 }, as: :json
-        post cart_add_items_url, params: { product_id: product.id, quantity: 1 }, as: :json
+        post add_item_to_cart_cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
+        post add_item_to_cart_cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
       end
 
       it 'updates the quantity of the existing item in the cart' do
@@ -70,7 +70,7 @@ RSpec.describe "Carts", type: :request do
 
     context 'when params is invalid' do
       subject do
-        post cart_add_items_url, params: { product_id: product.id, quantity: -1 }, as: :json
+        post add_item_to_cart_cart_url, params: { product_id: product.id, quantity: -1 }, as: :json
       end
 
       it 'returns empty array' do

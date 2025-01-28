@@ -1,7 +1,7 @@
 class CartsController < ApplicationController
   before_action :cart_id
 
-  def index
+  def show
     if session[:cart_id]
       carts = Cart.find(session[:cart_id])
       render json: carts, status: :ok
@@ -10,7 +10,7 @@ class CartsController < ApplicationController
     end
   end
 
-  def add_items
+  def add_item
     response = UpdateCartItemService.new(**permitted_params.merge(cart_id)).call
 
     if response.success
