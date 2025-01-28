@@ -10,6 +10,17 @@ class CartsController < ApplicationController
     end
   end
 
+  def create
+    response = CreateCartItemService.new(**permitted_params.merge(cart_id)).call
+
+    if response.success
+      session[:cart_id] = response.cart.id
+      render json: response.cart, status: :created
+    else
+      render json: [], status: :unprocessable_entity
+    end
+  end
+
   def add_item
     response = UpdateCartItemService.new(**permitted_params.merge(cart_id)).call
 

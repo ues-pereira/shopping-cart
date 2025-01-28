@@ -90,4 +90,113 @@ RSpec.describe "Carts", type: :request do
       end
     end
   end
+
+  describe "POST /cart" do
+    let(:product) { create(:product, name: 'Test Product', price: 10.0) }
+
+    context 'when cart does not exist' do
+      subject do
+        post cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
+      end
+
+      it 'creates a new cart and adds the item to the cart' do
+        expect { subject }.to change(Cart, :count).by(1)
+          .and change(CartItem, :count).by(1)
+
+        expect(response).to have_http_status(:created)
+      end
+
+      it 'creates a new card em save the card_id in the session' do
+        expect { subject }.to change(Cart, :count).by(1)
+
+        expect(session[:cart_id]).to eq Cart.first.id
+      end
+
+      it 'returns the list of items in the newly created cart' do
+        subject
+
+        parsed_response = JSON.parse(response.body).deep_symbolize_keys
+
+        expect(parsed_response).to include(:id, :products, :total_price)
+        expect(parsed_response[:products].first).to include(:id, :name, :quantity, :unit_price, :total_price)
+      end
+    end
+
+    context 'when cart already exists' do
+      let(:cart) { create(:cart) }
+
+      subject do
+        post cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
+      end
+
+      it 'adds the item to the existing cart' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        expect { subject }.to change { cart.cart_items.count }.from(0).to(1)
+        expect(Cart.count).to eq(1)
+      end
+
+      it 'returns the updated list of products' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        subject
+
+        parsed_response = JSON.parse(response.body).deep_symbolize_keys
+
+        expect(parsed_response).to include(:id, :products, :total_price)
+        expect(parsed_response[:products].first).to include(:id, :name, :quantity, :unit_price, :total_price)
+      end
+    end
+
+    context 'when params is invalid' do
+      let(:cart) { create(:cart) }
+
+      subject do
+        post cart_url, params: { product_id: product.id, quantity: -1 }, as: :json
+      end
+
+      it 'returns empty array' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        subject
+
+        expect(JSON.parse(response.body)).to be_empty
+      end
+
+      it 'unprocessable entity' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        subject
+
+        expect(response).to have_http_status(422)
+      end
+    end
+
+    context 'when product already registered' do
+      let(:cart) { create(:cart) }
+      let!(:cart_item) { create(:cart_item, cart: cart, product: product, quantity: 1) }
+
+      subject do
+        post cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
+      end
+
+      it 'response ' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        subject
+
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns response empty array' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        subject
+
+        parsed_response = JSON.parse(response.body)
+
+        expect(parsed_response).to be_empty
+      end
+    end
+  end
 end
