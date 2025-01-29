@@ -27,7 +27,7 @@ class CreateCartItemService
   end
 
   def already_item?
-    cart.cart_items.any? {|item| item.product.id = product_id}
+    cart.cart_items.any? {|item| item.product.id == product_id}
   end
 
   def find_or_create_cart
