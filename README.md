@@ -1,7 +1,7 @@
 # Ecommerce-cart
 
 ## Descrição
-API responsavel pelo gerenciamento de carrinho de compras, sendo possivel registrar/adicionar/remover/listar itens de um carrinho
+API responsável pelo gerenciamento de carrinho de compras, permitindo registrar, adicionar, remover e listar itens de um carrinho.
 
 ## Pre-requisitos
   - Ruby
@@ -40,3 +40,139 @@ Os testes tambem podem ser executados dentro do container, para isso basta abrir
  ```sh
   bundle exec rspec
  ```
+
+
+## API Documentation
+
+### 1. **Registrar um produto no carrinho**
+   **Descrição**: Adiciona um produto ao carrinho. Caso não exista um carrinho para a sessão, um novo será criado, e o ID do carrinho será armazenado na sessão. O payload retornado incluirá a lista atualizada de produtos no carrinho e o valor total.
+
+   - **Rota**: `POST /cart`
+   - **Payload (Request Body)**:
+     ```json
+     {
+       "product_id": 345,
+       "quantity": 2
+     }
+     ```
+   - **Response (Response Body)**:
+     ```json
+     {
+       "id": 789,
+       "products": [
+         {
+           "id": 645,
+           "name": "Nome do produto",
+           "quantity": 2,
+           "unit_price": 1.99,
+           "total_price": 3.98
+         },
+         {
+           "id": 646,
+           "name": "Nome do produto 2",
+           "quantity": 2,
+           "unit_price": 1.99,
+           "total_price": 3.98
+         }
+       ],
+       "total_price": 7.96
+     }
+     ```
+
+### 2. **Listar itens do carrinho atual**
+   **Descrição**: Lista todos os produtos presentes no carrinho atual. Retorna o ID do carrinho e os detalhes dos produtos, incluindo quantidade, preço unitário e total.
+
+   - **Rota**: `GET /cart`
+   - **Response (Response Body)**:
+     ```json
+     {
+       "id": 789,
+       "products": [
+         {
+           "id": 645,
+           "name": "Nome do produto",
+           "quantity": 2,
+           "unit_price": 1.99,
+           "total_price": 3.98
+         },
+         {
+           "id": 646,
+           "name": "Nome do produto 2",
+           "quantity": 2,
+           "unit_price": 1.99,
+           "total_price": 3.98
+         }
+       ],
+       "total_price": 7.96
+     }
+     ```
+
+### 3. **Alterar a quantidade de produtos no carrinho**
+   **Descrição**: Altera a quantidade de um produto no carrinho. Se o produto já estiver no carrinho, sua quantidade será ajustada. Caso contrário, ele será adicionado.
+
+   - **Rota**: `POST /cart/add_item`
+   - **Payload (Request Body)**:
+     ```json
+     {
+       "product_id": 1230,
+       "quantity": 1
+     }
+     ```
+   - **Response (Response Body)**:
+     ```json
+     {
+       "id": 1,
+       "products": [
+         {
+           "id": 1230,
+           "name": "Nome do produto X",
+           "quantity": 2,
+           "unit_price": 7.00,
+           "total_price": 14.00
+         },
+         {
+           "id": 01020,
+           "name": "Nome do produto Y",
+           "quantity": 1,
+           "unit_price": 9.90,
+           "total_price": 9.90
+         }
+       ],
+       "total_price": 23.90
+     }
+     ```
+
+### 4. **Remover um produto do carrinho**
+   **Descrição**: Remove um produto do carrinho, com base no `product_id`.
+
+   - **Rota**: `DELETE /cart/:product_id`
+   - **Exemplo de URL**: `DELETE /cart/1230` (onde `1230` é o ID do produto a ser removido)
+   - **Response (Response Body)**:
+     ```json
+     {
+       "id": 789,
+       "products": [
+         {
+           "id": 646,
+           "name": "Nome do produto 2",
+           "quantity": 2,
+           "unit_price": 1.99,
+           "total_price": 3.98
+         }
+       ],
+       "total_price": 3.98
+     }
+     ```
+
+---
+
+### Resumo das Rotas:
+
+| Método | Rota                | Descrição                                      |
+|--------|---------------------|------------------------------------------------|
+| POST   | `/cart`             | Registrar um produto no carrinho.             |
+| GET    | `/cart`             | Listar todos os itens do carrinho.            |
+| POST   | `/cart/add_item`    | Alterar a quantidade de um produto no carrinho.|
+| DELETE | `/cart/:product_id` | Remover um produto do carrinho.               |
+
+
