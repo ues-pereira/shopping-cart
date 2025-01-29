@@ -12,6 +12,12 @@ class CartItem < ApplicationRecord
     update!(quantity: self.quantity + quantity)
   end
 
+  def decrement_quantity!
+    new_quantity = [self.quantity - 1, 0].max
+
+    update!(quantity: new_quantity)
+  end
+
   private
 
   def update_cart_total_price

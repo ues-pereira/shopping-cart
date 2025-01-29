@@ -1,0 +1,5 @@
+pt-BR:
+  cart:
+    item_not_found: Produto nao encontrado no carrinho
+    item_removed: Produto removido com sucesso
+    not_found: Carrinho não foi localizado
