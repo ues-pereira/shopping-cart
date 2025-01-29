@@ -44,6 +44,71 @@ Os testes tambem podem ser executados dentro do container, para isso basta abrir
 
 ## API Documentation
 
+## Endpoints Produtos
+
+### 1. **Listar Todos os Produtos**
+
+- **URL:** `/products`
+- **Método:** `GET`
+- **Descrição:** Retorna todos os produtos.
+- **Resposta:**
+  - Código de status: `200 OK`
+  - Corpo da resposta:
+    ```json
+    [
+      {
+        "id": 1,
+        "name": "Produto 1",
+        "price": 100.00,
+        "created_at": "2025-01-29T12:56:12.011-03:00",
+        "updated_at": "2025-01-29T12:56:12.011-03:00"
+      },
+      {
+        "id": 2,
+        "name": "Produto 2",
+        "price": 150.00,
+        "created_at": "2025-01-29T12:56:12.011-03:00",
+        "updated_at": "2025-01-29T12:56:12.011-03:00"
+      }
+    ]
+    ```
+
+### 2. **Visualizar um Produto Específico**
+
+- **URL:** `/products/:id`
+- **Método:** `GET`
+- **Descrição:** Retorna os detalhes de um produto específico.
+- **Parâmetros de URL:**
+  - `id` (obrigatório) – O ID do produto que você deseja visualizar.
+- **Resposta:**
+  - Código de status: `200 OK`
+  - Corpo da resposta:
+    ```json
+    {
+      "id": 1,
+      "name": "Produto 1",
+      "price": 100.00,
+      "created_at": "2025-01-29T12:56:12.011-03:00",
+      "updated_at": "2025-01-29T12:56:12.011-03:00"
+    }
+    ```
+
+### 3. **Criar um Novo Produto**
+
+- **URL:** `/products`
+- **Método:** `POST`
+- **Descrição:** Cria um novo produto.
+- **Corpo da Requisição:**
+  ```json
+  {
+    "product": {
+      "name": "Novo Produto",
+      "price": 120.00
+    }
+  }
+
+## Endpoints Carrinho
+
 ### 1. **Registrar um produto no carrinho**
    **Descrição**: Adiciona um produto ao carrinho. Caso não exista um carrinho para a sessão, um novo será criado, e o ID do carrinho será armazenado na sessão. O payload retornado incluirá a lista atualizada de produtos no carrinho e o valor total.
 

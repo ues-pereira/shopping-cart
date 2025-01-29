@@ -20,7 +20,7 @@ services:
   web:
     build: .
     command: >
-      /bin/bash -c "bin/setup &&  bundle exec rails db:seed && bundle exec rails server -b 0.0.0.0"
+      /bin/bash -c "bin/setup &&  bundle exec rails db:seed && bundle exec whenever --update-crontab && bundle exec rails server -b 0.0.0.0"
     volumes:
       - .:/rails
       - rubygems:/usr/local/bundle
