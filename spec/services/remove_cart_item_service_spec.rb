@@ -13,6 +13,10 @@ RSpec.describe RemoveCartItemService, type: :service do
       it 'remove item with sucess' do
         expect { service.call }.to change { cart.cart_items.count }.from(1).to(0)
       end
+
+      it 'updates total price cart' do
+        expect { service.call }.to change { cart.reload.total_price }.from(10.0).to(0.0)
+      end
     end
 
     context 'when product does not exist in the cart' do
