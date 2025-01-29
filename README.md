@@ -15,27 +15,26 @@ Certifique-se de ter no seu sistema:
 
  Caso tenha um versao menor, será necessario incoporar o hífen e usar a forma: `docker-compose`
 
- Construir a imagem
- ```sh
-  docker compose build
- ```
-
+### Subindo aplicação
 Iniciar a aplicacao
  ```sh
   docker compose up web
  ```
 
- Abrir o shell no container web
+ Abrir outro shell, acessar o container `web`e iniciar o sidekiq
   ```sh
-  docker compose run --rm web bash
+  bundle exec sidekiq
  ```
 
+### Executar testes
 Rodar os testes
  ```sh
   docker compose up test
  ```
 
- Abrir o shell no container test
+ ou
+
+ Abrir o shell no container de test e executar `rspec`
   ```sh
   docker compose run --rm test bash
  ```
