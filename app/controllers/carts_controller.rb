@@ -3,8 +3,8 @@ class CartsController < ApplicationController
 
   def show
     if session[:cart_id]
-      carts = Cart.find(session[:cart_id])
-      render json: carts, status: :ok
+      cart = Cart.find(session[:cart_id])
+      render json: cart, status: :ok
     else
       render json: [], satus: :ok
     end

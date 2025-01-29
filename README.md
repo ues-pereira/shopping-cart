@@ -4,9 +4,9 @@
 API responsável pelo gerenciamento de carrinho de compras, permitindo registrar, adicionar, remover e listar itens de um carrinho.
 
 ## Pre-requisitos
-  - Ruby
-  - PostgreSQL
-  - Redis
+  - Ruby 3.3.1
+  - PostgreSQL 16
+  - Redis 7
 
 ## Setup com Docker
 Certifique-se de ter no seu sistema:
