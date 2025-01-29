@@ -3,7 +3,12 @@ pt-BR:
     item_not_found: Produto nao encontrado no carrinho
     item_removed: Produto removido com sucesso
     not_found: Carrinho não foi localizado
+    item_recorded: item já foi registrado
+    unexpected_error: erro inesperado
+    invalid_params: parametros invalidos
+    invalid_product: Produto nao cadastrado
   errors:
     messages:
       greater_than_or_equal_to: "deve ser maior ou igual a %{count}"
       blank: não pode ficar em branco
+

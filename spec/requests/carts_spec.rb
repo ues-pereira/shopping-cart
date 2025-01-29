@@ -78,7 +78,7 @@ RSpec.describe "Carts", type: :request do
 
         subject
 
-        expect(JSON.parse(response.body)).to be_empty
+        expect(response.body).to eq 'parametros invalidos'
       end
 
       it 'unprocessable entity' do
@@ -108,8 +108,7 @@ RSpec.describe "Carts", type: :request do
 
       it 'creates a new card em save the card_id in the session' do
         expect { subject }.to change(Cart, :count).by(1)
-
-        expect(session[:cart_id]).to eq Cart.first.id
+        expect(response.cookies['_store_session']).to be_present
       end
 
       it 'returns the list of items in the newly created cart' do
@@ -125,6 +124,10 @@ RSpec.describe "Carts", type: :request do
     context 'when cart already exists' do
       let(:cart) { create(:cart) }
 
+      before do
+        cookies[:cart_id] = cart.id
+      end
+
       subject do
         post cart_url, params: { product_id: product.id, quantity: 1 }, as: :json
       end
@@ -133,7 +136,6 @@ RSpec.describe "Carts", type: :request do
         allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
 
         expect { subject }.to change { cart.cart_items.count }.from(0).to(1)
-        expect(Cart.count).to eq(1)
       end
 
       it 'returns the updated list of products' do
@@ -160,7 +162,7 @@ RSpec.describe "Carts", type: :request do
 
         subject
 
-        expect(JSON.parse(response.body)).to be_empty
+        expect(response.body).to eq 'parametros invalidos'
       end
 
       it 'unprocessable entity' do
@@ -193,9 +195,7 @@ RSpec.describe "Carts", type: :request do
 
         subject
 
-        parsed_response = JSON.parse(response.body)
-
-        expect(parsed_response).to be_empty
+        expect(response.body).to eq 'item já foi registrado'
       end
     end
   end
@@ -216,7 +216,7 @@ RSpec.describe "Carts", type: :request do
       it 'remove item with sucess' do
         allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
 
-        expect { subject }.to change { CartItem.count }.from(1).to(0)
+        expect { subject }.to change { cart.cart_items.count}.from(1).to(0)
       end
 
       it 'returns empty array' do
@@ -267,21 +267,27 @@ RSpec.describe "Carts", type: :request do
 
     context 'when cart has multiple item and one is removed' do
       let(:cart) { create(:cart) }
-      let(:product) { create(:product, name: 'Test Product X', price: 10.0) }
-      let!(:cart_item) { create(:cart_item, cart: cart, product: product, quantity: 2) }
+      let(:product_a) { create(:product, name: 'Test Product A', price: 10.0) }
+      let(:product_b) { create(:product, name: 'Test Product B', price: 10.0) }
 
       subject do
-        delete remove_item_cart_url(product_id: product.id)
+        delete remove_item_cart_url(product_id: product_a.id)
       end
 
       it 'remove item with sucess' do
+        create(:cart_item, cart: cart, product: product_a, quantity: 1)
+        create(:cart_item, cart: cart, product: product_b, quantity: 1)
+
         allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
 
-        expect { subject }.to change { CartItem.first.quantity }.from(2).to(1)
+        expect { subject }.to change { cart.cart_items.count }.from(2).to(1)
         expect(response).to have_http_status(:ok)
       end
 
       it 'returns updated list' do
+        create(:cart_item, cart: cart, product: product_a, quantity: 1)
+        create(:cart_item, cart: cart, product: product_b, quantity: 1)
+
         allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
 
         subject

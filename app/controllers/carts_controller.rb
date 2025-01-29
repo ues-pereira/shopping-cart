@@ -17,7 +17,7 @@ class CartsController < ApplicationController
       session[:cart_id] = response.cart.id
       render json: response.cart, status: :created
     else
-      render json: [], status: :unprocessable_entity
+      render json: response.message, status: :unprocessable_entity
     end
   end
 
@@ -25,9 +25,10 @@ class CartsController < ApplicationController
     response = UpdateCartItemService.new(**permitted_params.merge(cart_id)).call
 
     if response.success
-      render json: response.carts, status: :ok
+      session[:cart_id] = response.cart.id
+      render json: response.cart, status: :ok
     else
-      render json: [], status: :unprocessable_entity
+      render json: response.message, status: :unprocessable_entity
     end
   end
 
@@ -46,6 +47,6 @@ class CartsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:product_id, :quantity).to_h.deep_symbolize_keys
+    params.permit(:product_id, :quantity).to_h.deep_symbolize_keys.transform_values(&:to_i)
   end
 end

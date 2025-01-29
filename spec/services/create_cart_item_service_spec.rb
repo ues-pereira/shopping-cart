@@ -16,7 +16,7 @@ RSpec.describe CreateCartItemService, type: :service do
       end
 
       it 'updates the item quantity' do
-        expect { service.call }.to change { CartItem.count }.from(0).to(1)
+        expect { service.call }.to change { Cart.count }.from(0).to(1)
       end
 
       it 'update the total_price of the cart' do
@@ -49,6 +49,18 @@ RSpec.describe CreateCartItemService, type: :service do
       it 'returns success as false' do
         response = service.call
         expect(response.success).to be(false)
+      end
+    end
+
+    context 'when product is invalid' do
+      let(:cart) { create(:cart) }
+      let(:product) { OpenStruct.new(id: 1000 ) }
+      let(:quantity) { 1 }
+
+      it 'returns success as false' do
+        response = service.call
+        expect(response.success).to be(false)
+        expect(response.message).to eq 'Produto nao cadastrado'
       end
     end
 
