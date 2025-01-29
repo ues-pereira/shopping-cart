@@ -11,7 +11,7 @@ RSpec.describe RemoveCartItemService, type: :service do
       let!(:cart_item) { create(:cart_item, cart: cart, product: product, quantity: 1) }
 
       it 'remove item with sucess' do
-        expect { service.call }.to change { cart_item.reload.quantity }.from(1).to(0)
+        expect { service.call }.to change { cart.cart_items.count }.from(1).to(0)
       end
     end
 
