@@ -2,7 +2,7 @@ class CartItem < ApplicationRecord
   belongs_to :cart
   belongs_to :product
 
-  after_commit :update_cart_total_price
+  after_commit :update_cart_total_price, on: %i[create update destroy]
 
   def total_price
     product.price * quantity
