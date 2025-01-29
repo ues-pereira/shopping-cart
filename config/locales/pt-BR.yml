@@ -6,3 +6,4 @@ pt-BR:
   errors:
     messages:
       greater_than_or_equal_to: "deve ser maior ou igual a %{count}"
+      blank: não pode ficar em branco
