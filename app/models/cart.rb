@@ -7,7 +7,7 @@ class Cart < ApplicationRecord
   # TODO: lógica para marcar o carrinho como abandonado e remover se abandonado
 
   def set_total_price
-    total_price = cart_items.sum(&:total_price)
+    total_price = cart_items.reload.sum(&:total_price)
     update(total_price: total_price)
   end
 end
