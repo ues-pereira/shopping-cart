@@ -22,25 +22,23 @@ Certifique-se de ter no seu sistema:
 
 Iniciar a aplicacao
  ```sh
-  docker compose up
+  docker compose up web
  ```
 
- Abrir o shell dentro do container web
+ Abrir o shell no container web
   ```sh
   docker compose run --rm web bash
  ```
-Caso desejar iniciar o container `test` basta substituir
 
 Rodar os testes
  ```sh
   docker compose up test
  ```
 
-Os testes tambem podem ser executados dentro do container, para isso basta abrir o shell do container de `test` e executar
- ```sh
-  bundle exec rspec
+ Abrir o shell no container test
+  ```sh
+  docker compose run --rm test bash
  ```
-
 
 ## API Documentation
 
