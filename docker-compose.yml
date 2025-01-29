@@ -20,13 +20,18 @@ services:
   web:
     build: .
     command: >
-      /bin/bash -c "bin/setup &&  bundle exec rails db:seed && bundle exec whenever --update-crontab && bundle exec rails server -b 0.0.0.0"
+      /bin/bash -c "bin/setup
+         bundle exec rails db:seed
+         bundle exec whenever --update-crontab
+         bundle exec rails s -b 0.0.0.0"
+         bundle exec sidekiq
     volumes:
       - .:/rails
       - rubygems:/usr/local/bundle
     depends_on:
       - db
       - redis
+      - sidekiq
     environment:
       DATABASE_URL: postgresql://postgres:password@db:5432/myapp_development
       RAILS_ENV: development
