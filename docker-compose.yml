@@ -20,7 +20,7 @@ services:
   web:
     build: .
     command: >
-      /bin/bash -c "bin/setup && bundle exec rails server -b 0.0.0.0"
+      /bin/bash -c "bin/setup &&  bundle exec rails db:seed && bundle exec rails server -b 0.0.0.0"
     volumes:
       - .:/rails
       - rubygems:/usr/local/bundle
@@ -45,8 +45,12 @@ services:
       - redis
     environment:
       DATABASE_URL: postgresql://postgres:password@db:5432/myapp_test
+      DATABASE_CLEANER_ALLOW_PRODUCTION: true
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: true
       RAILS_ENV: test
       REDIS_URL: redis://redis:6379/0
+    ports:
+      - 3000:3000
 volumes:
   postgres13:
   redis_data:
