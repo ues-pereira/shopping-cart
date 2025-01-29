@@ -31,6 +31,14 @@ class CartsController < ApplicationController
     end
   end
 
+  def remove_item
+    response = RemoveCartItemService.new(**permitted_params.merge(cart_id)).call
+
+    return render json: response.cart, status: :ok if response.success && response.cart.cart_items.present?
+    return render json: [], status: :ok if response.success && response.cart.cart_items.blank?
+    return render json: response.message, status: :unprocessable_entity
+  end
+
   private
 
   def cart_id

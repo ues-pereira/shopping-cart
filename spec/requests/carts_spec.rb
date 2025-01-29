@@ -199,4 +199,100 @@ RSpec.describe "Carts", type: :request do
       end
     end
   end
+
+
+  describe 'DELETE /cart/:product_id' do
+    let(:product) { create(:product, name: 'Test Product', price: 10.0) }
+
+    context 'when product exists in the cart' do
+      let(:cart) { create(:cart) }
+      let(:product) { create(:product, name: 'Test Product X', price: 10.0) }
+      let!(:cart_item) { create(:cart_item, cart: cart, product: product, quantity: 1) }
+
+      subject do
+        delete remove_item_cart_url(product_id: product.id)
+      end
+
+      it 'remove item with sucess' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        expect { subject }.to change { CartItem.count }.from(1).to(0)
+      end
+
+      it 'returns empty array' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        subject
+
+        parsed_response = JSON.parse(response.body)
+        expect(parsed_response).to be_empty
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context 'when product does not exist in the cart' do
+      let(:cart) { create(:cart) }
+      let(:product) { create(:product, name: 'Test Product X', price: 10.0) }
+
+      subject do
+        delete remove_item_cart_url(product_id: product.id)
+      end
+
+      it 'returns message error' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        subject
+
+        expect(response).to have_http_status(422)
+        expect(response.body).to eq 'Produto nao encontrado no carrinho'
+      end
+    end
+
+    context 'when cart does not exist' do
+      let(:product) { create(:product, name: 'Test Product X', price: 10.0) }
+
+      subject do
+        delete remove_item_cart_url(product_id: product.id)
+      end
+
+      it 'returns message error' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: nil})
+
+        subject
+
+        expect(response).to have_http_status(422)
+        expect(response.body).to eq 'Carrinho não foi localizado'
+      end
+    end
+
+    context 'when cart has multiple item and one is removed' do
+      let(:cart) { create(:cart) }
+      let(:product) { create(:product, name: 'Test Product X', price: 10.0) }
+      let!(:cart_item) { create(:cart_item, cart: cart, product: product, quantity: 2) }
+
+      subject do
+        delete remove_item_cart_url(product_id: product.id)
+      end
+
+      it 'remove item with sucess' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        expect { subject }.to change { CartItem.first.quantity }.from(2).to(1)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns updated list' do
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+
+        subject
+
+        parsed_response = JSON.parse(response.body).deep_symbolize_keys
+
+        expect(response).to be_successful
+        expect(parsed_response).to include(:id, :products, :total_price)
+        expect(parsed_response[:products].first).to include(:id, :name, :quantity, :unit_price, :total_price)
+      end
+
+    end
+  end
 end
