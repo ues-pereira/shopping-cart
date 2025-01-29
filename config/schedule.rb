@@ -1,6 +1,6 @@
 set :environment, "development"
 
-every 1.minute do
+every 3.hours do
   rake 'carts:abandoned'
 end
 
