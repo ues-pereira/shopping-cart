@@ -12,12 +12,14 @@ class UpdateCartItemService
     return handle_response(success: false, cart: cart, message: I18n.t("cart.invalid_params")) if params_invalid?
     return handle_response(success: false, cart: cart, message: I18n.t("cart.invalid_product")) if product_invalid?
 
-    item = find_or_add_item
-    item.increment_quantity!(quantity)
+    ActiveRecord::Base.transaction do
+      item = find_or_add_item
+      item.increment_quantity!(quantity)
+    end
 
     handle_response(success: true, cart: cart)
   rescue StandardError => e
-    handle_response(success: false, cart: cart)
+    handle_response(success: false, cart: cart, message: e.message)
   end
 
   private

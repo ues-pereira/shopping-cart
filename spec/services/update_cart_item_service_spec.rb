@@ -45,9 +45,21 @@ RSpec.describe UpdateCartItemService, type: :service do
     context 'when params is invalid' do
       let(:quantity) { -1 }
 
-      it 'returns success as false' do
+      it 'returns false for success' do
         response = service.call
         expect(response.success).to be(false)
+      end
+    end
+
+    context 'when unexpected error occurs' do
+      let(:quantity) { 1 }
+
+      it  'returns false for success' do
+        allow_any_instance_of(cart.cart_items.class).to receive(:find_or_create_by!).and_raise(ActiveRecord::RecordInvalid)
+        response = service.call
+
+        expect(response.success).to be(false)
+        expect(response.message).to eq 'Record invalid'
       end
     end
   end

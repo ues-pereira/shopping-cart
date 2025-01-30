@@ -30,7 +30,7 @@ class RemoveCartItemService
   end
 
   def find_item
-    @find_item ||= find_cart.cart_items.find { |item| item.product_id == product_id }
+    @find_item ||= find_cart.cart_items.find_by(product_id: product_id)
   end
 
   def remove_product!

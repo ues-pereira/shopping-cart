@@ -4,7 +4,6 @@ pt-BR:
     item_removed: Produto removido com sucesso
     not_found: Carrinho não foi localizado
     item_recorded: item já foi registrado
-    unexpected_error: erro inesperado
     invalid_params: parametros invalidos
     invalid_product: Produto nao cadastrado
   errors:

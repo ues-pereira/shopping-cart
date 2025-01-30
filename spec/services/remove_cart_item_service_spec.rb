@@ -38,7 +38,7 @@ RSpec.describe RemoveCartItemService, type: :service do
         response = service.call
 
         expect(response.success).to be(false)
-        expect(response.message).to eq 'Carrinho não foi localizado'
+        expect(response.message).to eq "Carrinho não foi localizado"
       end
     end
 
