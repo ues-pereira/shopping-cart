@@ -4,7 +4,6 @@ RSpec.describe RemoveCartItemService, type: :service do
   describe '#call' do
     subject(:service) { described_class.new(product_id: product.id, cart_id: cart.id) }
 
-
     context 'when product exists in the cart' do
       let(:product) { create(:product, name: 'Test Product', price: 10.0) }
       let(:cart) { create(:cart) }

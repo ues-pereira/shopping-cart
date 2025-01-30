@@ -9,7 +9,7 @@ RSpec.describe "Carts", type: :request do
         cart = create(:cart)
         product = create(:product, name: 'Product A')
         create(:cart_item, cart: cart, product: product)
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         get cart_url
 
@@ -44,7 +44,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'updates the quantity of the existing item in the cart' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -59,7 +59,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'updates the quantity of the existing item in the cart' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -74,7 +74,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'returns empty array' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -82,7 +82,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'unprocessable entity' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -101,7 +101,7 @@ RSpec.describe "Carts", type: :request do
 
       it 'creates a new cart and adds the item to the cart' do
         expect { subject }.to change(Cart, :count).by(1)
-          .and change(CartItem, :count).by(1)
+                                                  .and change(CartItem, :count).by(1)
 
         expect(response).to have_http_status(:created)
       end
@@ -133,13 +133,13 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'adds the item to the existing cart' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         expect { subject }.to change { cart.cart_items.count }.from(0).to(1)
       end
 
       it 'returns the updated list of products' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -158,7 +158,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'returns empty array' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -166,7 +166,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'unprocessable entity' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -183,7 +183,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'returns unprocessable entity' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -191,7 +191,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'returns response empty array' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -199,7 +199,6 @@ RSpec.describe "Carts", type: :request do
       end
     end
   end
-
 
   describe 'DELETE /cart/:product_id' do
     let(:product) { create(:product, name: 'Test Product', price: 10.0) }
@@ -214,13 +213,13 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'remove item with sucess' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
-        expect { subject }.to change { cart.cart_items.count}.from(1).to(0)
+        expect { subject }.to change { cart.cart_items.count }.from(1).to(0)
       end
 
       it 'returns empty array' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -239,7 +238,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'returns message error' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -256,7 +255,7 @@ RSpec.describe "Carts", type: :request do
       end
 
       it 'returns message error' do
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: nil})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: nil })
 
         subject
 
@@ -278,7 +277,7 @@ RSpec.describe "Carts", type: :request do
         create(:cart_item, cart: cart, product: product_a, quantity: 1)
         create(:cart_item, cart: cart, product: product_b, quantity: 1)
 
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         expect { subject }.to change { cart.cart_items.count }.from(2).to(1)
         expect(response).to have_http_status(:ok)
@@ -288,7 +287,7 @@ RSpec.describe "Carts", type: :request do
         create(:cart_item, cart: cart, product: product_a, quantity: 1)
         create(:cart_item, cart: cart, product: product_b, quantity: 1)
 
-        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id})
+        allow_any_instance_of(CartsController).to receive(:session).and_return({ cart_id: cart.id })
 
         subject
 
@@ -298,7 +297,6 @@ RSpec.describe "Carts", type: :request do
         expect(parsed_response).to include(:id, :products, :total_price)
         expect(parsed_response[:products].first).to include(:id, :name, :quantity, :unit_price, :total_price)
       end
-
     end
   end
 end

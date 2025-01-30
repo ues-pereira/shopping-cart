@@ -54,7 +54,7 @@ RSpec.describe CreateCartItemService, type: :service do
 
     context 'when product is invalid' do
       let(:cart) { create(:cart) }
-      let(:product) { OpenStruct.new(id: 1000 ) }
+      let(:product) { OpenStruct.new(id: 1000) }
       let(:quantity) { 1 }
 
       it 'returns success as false' do

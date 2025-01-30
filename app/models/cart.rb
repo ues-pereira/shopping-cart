@@ -8,7 +8,6 @@ class Cart < ApplicationRecord
 
   enum status: { active: 0, abandoned: 1 }
 
-
   def mark_as_abandoned
     return if abandoned? || last_interaction_at > 3.hours.ago
 
