@@ -15,7 +15,7 @@ describe RemoveAbandonedCartJob, type: :job do
       let!(:cart) { create(:cart, last_interaction_at: 6.days.ago, status: :abandoned) }
 
       it 'keeps active status' do
-        expect { MarkAbandonedCartJob.perform_now(cart) }
+        expect { RemoveAbandonedCartJob.perform_now(cart) }
           .to_not change { Cart.count }
       end
     end

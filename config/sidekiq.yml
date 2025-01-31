@@ -7,5 +7,8 @@
   - mailers
   - active_storage_analysis
   - active_storage_purge
-  - abandoned_cart
-  - remove_bandoned_cart
+  - mark_carts_abandoned
+  - abandon_cart
+  - remove_carts_abandoned
+  - remove_abandoned_cart
+
