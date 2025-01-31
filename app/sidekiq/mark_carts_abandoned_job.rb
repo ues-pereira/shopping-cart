@@ -5,7 +5,7 @@ class MarkCartsAbandonedJob
   def perform
     carts = Cart.active.where("last_interaction_at < ?", 3.hours.ago)
 
-    carts.find_each do |cart|
+    carts.each do |cart|
       AbandonCartJob.perform_later(cart)
     end
   end
