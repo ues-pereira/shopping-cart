@@ -236,5 +236,9 @@ Rodar os testes
 | GET    | `/cart`             | Listar todos os itens do carrinho.            |
 | POST   | `/cart/add_item`    | Alterar a quantidade de um produto no carrinho.|
 | DELETE | `/cart/:product_id` | Remover um produto do carrinho.               |
-
+| POST   | `/products`             | Registrar um produto.             |
+| GET    | `/products`             | Listar todos os produtos.            |
+| GET    | `/products/1`             | Mostrar um produto especifico.            |
+| PATCH/PUT   | `/products/1`    | Alterar nome ou preço do produto.|
+| DELETE | `/products/1` | Remover um produto.               |
 
