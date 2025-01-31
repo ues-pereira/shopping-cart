@@ -1,10 +1,10 @@
 abandoned_cart:
   cron: "* * * * *"
   class: "MarkCartsAbandonedJob"
-  queue: "mark_carts_abandoned"
+  queue: mark_carts_abandoned
 
 remove_abandoned_cart:
-  cron: "0 0 * * *"
-  class: "RemoveCartsAbandoned"
-  queue: "remove_carts_abandoned"
+  cron: "* * * * *"
+  class: "RemoveCartsAbandonedJob"
+  queue: remove_carts_abandoned
 
