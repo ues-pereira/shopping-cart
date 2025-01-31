@@ -318,6 +318,10 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.19.0)
+    sidekiq-cron (1.12.0)
+      fugit (~> 1.8)
+      globalid (>= 1.0.1)
+      sidekiq (>= 6)
     sidekiq-scheduler (5.0.3)
       rufus-scheduler (~> 3.2)
       sidekiq (>= 6, < 8)
@@ -363,6 +367,7 @@ DEPENDENCIES
   rspec-rails (~> 6.1.0)
   rubocop-rails-omakase
   sidekiq (~> 7.2, >= 7.2.4)
+  sidekiq-cron
   sidekiq-scheduler (~> 5.0, >= 5.0.3)
   tzinfo-data
   whenever
