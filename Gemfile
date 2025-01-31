@@ -14,7 +14,6 @@ gem 'redis', '~> 5.2'
 gem 'sidekiq', '~> 7.2', '>= 7.2.4'
 gem 'sidekiq-scheduler', '~> 5.0', '>= 5.0.3'
 gem 'tzinfo-data', platforms: %i[windows jruby]
-gem 'whenever', require: false
 gem "sidekiq-cron"
 
 group :development, :test do

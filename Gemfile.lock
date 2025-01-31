@@ -88,7 +88,6 @@ GEM
     builder (3.2.4)
     case_transform (0.2)
       activesupport
-    chronic (0.10.2)
     coderay (1.1.3)
     concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
@@ -339,8 +338,6 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    whenever (1.0.0)
-      chronic (>= 0.6.3)
     zeitwerk (2.6.13)
 
 PLATFORMS
@@ -370,7 +367,6 @@ DEPENDENCIES
   sidekiq-cron
   sidekiq-scheduler (~> 5.0, >= 5.0.3)
   tzinfo-data
-  whenever
 
 RUBY VERSION
    ruby 3.3.1p55
