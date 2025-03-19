@@ -1,4 +1,4 @@
-# Ecommerce-cart
+# Shopping-cart
 
 ## Descrição
 API responsável pelo gerenciamento de carrinho de compras, permitindo registrar, adicionar, remover e listar itens de um carrinho.
